@@ -1,0 +1,105 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useTranslation } from 'react-i18next';
+import './DataManipulation.css';
+
+const DataManipulation: React.FC = () => {
+  const { i18n } = useTranslation();
+  const [dataset, setDataset] = useState('oda');
+  const [columns, setColumns] = useState<string[]>([]);
+  const [operation, setOperation] = useState('groupby');
+  const [selectedColumn, setSelectedColumn] = useState('');
+  const [filterValue, setFilterValue] = useState('');
+  const [aggColumn, setAggColumn] = useState('');
+  const [aggFunc, setAggFunc] = useState('sum');
+  const [result, setResult] = useState<any[]>([]);
+
+  // Fetch available columns based on dataset
+  useEffect(() => {
+    axios.get(`http://localhost:8000/columns/?dataset=${dataset}`)
+      .then(res => setColumns(res.data.columns))
+      .catch(err => console.error(err));
+  }, [dataset]);
+
+  // Handle Operation Submission
+  const handleSubmit = () => {
+    if (operation === 'groupby') {
+      axios.get(`http://localhost:8000/groupby/?column=${selectedColumn}&dataset=${dataset}`)
+        .then(res => setResult(res.data))
+        .catch(err => console.error(err));
+    } else if (operation === 'filter') {
+      axios.get(`http://localhost:8000/filter/?column=${selectedColumn}&value=${filterValue}&dataset=${dataset}`)
+        .then(res => setResult(res.data))
+        .catch(err => console.error(err));
+    } else if (operation === 'aggregate') {
+      axios.get(`http://localhost:8000/aggregate/?group_by_column=${selectedColumn}&agg_column=${aggColumn}&agg_func=${aggFunc}&dataset=${dataset}`)
+        .then(res => setResult(res.data))
+        .catch(err => console.error(err));
+    }
+  };
+
+  return (
+    <div className="data-manipulation-container">
+      <h1>{i18n.language === 'ko' ? '데이터 조작 인터페이스' : 'Data Manipulation Interface'}</h1>
+
+      <div className="controls">
+        {/* Select Dataset */}
+        <label>{i18n.language === 'ko' ? '데이터셋 선택' : 'Select Dataset'}: </label>
+        <select value={dataset} onChange={e => setDataset(e.target.value)}>
+          <option value="oda">ODA</option>
+          <option value="trade">Trade</option>
+        </select>
+
+        {/* Select Operation */}
+        <label>{i18n.language === 'ko' ? '작업 선택' : 'Select Operation'}: </label>
+        <select value={operation} onChange={e => setOperation(e.target.value)}>
+          <option value="groupby">{i18n.language === 'ko' ? '그룹화' : 'Group By'}</option>
+          <option value="filter">{i18n.language === 'ko' ? '필터' : 'Filter'}</option>
+          <option value="aggregate">{i18n.language === 'ko' ? '집계' : 'Aggregate'}</option>
+        </select>
+
+        {/* Select Column */}
+        <label>{i18n.language === 'ko' ? '컬럼 선택' : 'Select Column'}: </label>
+        <select value={selectedColumn} onChange={e => setSelectedColumn(e.target.value)}>
+          {columns.map(col => <option key={col} value={col}>{col}</option>)}
+        </select>
+
+        {/* Filter or Aggregate Options */}
+        {operation === 'filter' && (
+          <input
+            type="text"
+            placeholder={i18n.language === 'ko' ? '필터 값 입력' : 'Enter Filter Value'}
+            value={filterValue}
+            onChange={e => setFilterValue(e.target.value)}
+          />
+        )}
+
+        {operation === 'aggregate' && (
+          <>
+            <label>{i18n.language === 'ko' ? '집계 컬럼' : 'Aggregate Column'}: </label>
+            <select value={aggColumn} onChange={e => setAggColumn(e.target.value)}>
+              {columns.map(col => <option key={col} value={col}>{col}</option>)}
+            </select>
+
+            <label>{i18n.language === 'ko' ? '집계 함수' : 'Aggregate Function'}: </label>
+            <select value={aggFunc} onChange={e => setAggFunc(e.target.value)}>
+              <option value="sum">Sum</option>
+              <option value="mean">Mean</option>
+              <option value="count">Count</option>
+            </select>
+          </>
+        )}
+
+        <button onClick={handleSubmit}>{i18n.language === 'ko' ? '실행' : 'Run'}</button>
+      </div>
+
+      {/* Display Results */}
+      <div className="results">
+        <h2>{i18n.language === 'ko' ? '결과' : 'Results'}</h2>
+        <pre>{JSON.stringify(result, null, 2)}</pre>
+      </div>
+    </div>
+  );
+};
+
+export default DataManipulation;

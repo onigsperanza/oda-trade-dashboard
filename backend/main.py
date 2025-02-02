@@ -21,8 +21,9 @@ app.add_middleware(
 )
 
 # Load datasets
-trade_df = pd.read_csv('Fully_Translated_Country_Names_With_Columns.csv')
-oda_df = pd.read_csv('oda_data.csv')
+trade_df = pd.read_csv('Fully_Translated_Country_Names_With_Columns.csv', low_memory=False)
+
+oda_df = pd.read_csv('oda_data.csv', low_memory=False)
 
 # Preprocess and merge datasets
 trade_df['Country Name'] = trade_df['Country Name'].str.lower().str.strip()
