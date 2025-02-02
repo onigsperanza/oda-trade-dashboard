@@ -1,0 +1,30 @@
+# Node modules and build files
+/frontend/node_modules
+/frontend/dist
+/frontend/.env
+
+# Python virtual environments and cache
+/backend/__pycache__/
+/backend/.venv/
+/backend/venv/
+backend/.env
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# IDE files
+.vscode/
+.idea/
+
+# Shapefiles cache (if generated)
+*.shx
+*.dbf
+*.prj
+*.cpg
+
+# Docker
+*.pid
