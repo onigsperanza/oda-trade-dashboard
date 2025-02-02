@@ -1,17 +1,17 @@
 FROM node:18
 
-# Set working directory
 WORKDIR /app
 
-# Copy package files and install dependencies
-COPY package.json package-lock.json ./
-RUN npm install
+# Copy only package.json (exclude package-lock.json)
+COPY package.json ./
 
-# Copy the rest of the application code
+# Generate package-lock.json and install dependencies inside Docker
+RUN npm install --legacy-peer-deps
+
+# Copy the rest of the source code
 COPY . .
 
-# Expose Vite's development server port
 EXPOSE 3000
 
-# Run the development server
-CMD ["npm", "run", "dev", "--", "--host"]
+CMD ["npx", "vite", "--host"]
+

@@ -9,6 +9,10 @@ import CountryInsights from "./components/CountryInsights";
 import InteractiveHeatmap from "./components/InteractiveHeatmap";
 import { ThemeProvider } from "./components/ui";
 import "./i18n";
+import Menu from "./components/Menu";
+import DataIntroduction from "./components/DataIntroduction";
+
+
 
 const App: React.FC = () => {
   const [darkMode, setDarkMode] = useState(false);
@@ -26,20 +30,17 @@ const App: React.FC = () => {
     <GoogleOAuthProvider clientId="YOUR_GOOGLE_CLIENT_ID">
       <ThemeProvider darkMode={darkMode}>
         <Router>
-          <div className="app">
-            <nav className="navbar">
-              <button onClick={switchLanguage}>🌐 {i18n.language === "en" ? "KO" : "EN"}</button>
-              <button onClick={toggleTheme}>{darkMode ? "☀️ Light Mode" : "🌙 Dark Mode"}</button>
-            </nav>
-
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/trend" element={<TrendAnalysis />} />
-              <Route path="/correlation" element={<CorrelationAnalysis />} />
-              <Route path="/country-insights" element={<CountryInsights />} />
-              <Route path="/heatmap" element={<InteractiveHeatmap />} />
-            </Routes>
-          </div>
+        <div className="app" style={{ height: "100vh", width: "100vw", display: "flex", flexDirection: "column" }}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/menu" element={<Menu />} />
+            <Route path="/trend" element={<TrendAnalysis />} />
+            <Route path="/correlation" element={<CorrelationAnalysis />} />
+            <Route path="/country-insights" element={<CountryInsights />} />
+            <Route path="/heatmap" element={<InteractiveHeatmap />} />
+            <Route path="/data" element={<DataIntroduction />} />
+          </Routes>
+        </div>
         </Router>
       </ThemeProvider>
     </GoogleOAuthProvider>
@@ -47,3 +48,5 @@ const App: React.FC = () => {
 };
 
 export default App;
+
+

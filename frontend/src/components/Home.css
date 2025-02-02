@@ -1,0 +1,161 @@
+/* Base Container Styling */
+.home-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: var(--text-color);
+}
+
+/* Light and Dark Mode Backgrounds & Font Colors */
+.light-mode {
+  background: url('/images/light-background.jpg') no-repeat center center fixed;
+  background-size: cover;
+  --text-color: #000000;  /* Black text for light mode */
+}
+
+.dark-mode {
+  background: url('/images/dark-background.jpg') no-repeat center center fixed;
+  background-size: cover;
+  --text-color: #ffffff;  /* White text for dark mode */
+}
+
+/* Overlay for Better Readability */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+  z-index: 0;  /* Keep overlay at the bottom */
+}
+
+/* Navbar */
+.navbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 1;
+}
+
+.navbar-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+/* Navigation Menu */
+.menu {
+  display: flex;
+  gap: 20px;
+}
+
+.menu-link {
+  text-decoration: none;
+  font-weight: 500;
+  padding: 10px 20px;
+  border-radius: 5px;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.menu-link:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Centered Banner */
+.banner {
+  text-align: center;
+  z-index: 1;
+}
+
+.banner-title {
+  font-size: 4rem;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.banner-subtitle {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.start-button {
+  background-color: #ff5722;
+  color: #ffffff;
+  padding: 15px 40px;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.start-button:hover {
+  background-color: #e64a19;
+}
+
+/* Footer */
+.footer {
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
+  text-align: center;
+}
+
+.footer-text {
+  font-size: 3rem;
+  opacity: 0.8;
+}
+
+/* Toggle Buttons Positioned at Bottom */
+.language-toggle, .theme-toggle {
+  position: fixed;
+  padding: 10px 20px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  z-index: 2;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Position Language Toggle at Bottom Left */
+.language-toggle {
+  bottom: 20px;
+  left: 20px;
+}
+
+/* Position Theme Toggle at Bottom Right */
+.theme-toggle {
+  bottom: 20px;
+  right: 20px;
+}
+
+/* Adjust Button Colors for Dark Mode */
+.dark-mode .language-toggle, 
+.dark-mode .theme-toggle {
+  background: rgba(0, 0, 0, 0.7);
+  color: #ffffff;
+}
+
+.light-mode .language-toggle, 
+.light-mode .theme-toggle {
+  background: rgba(255, 255, 255, 0.8);
+  color: #000000;
+}
