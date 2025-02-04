@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Query
 from fastapi.responses import JSONResponse, FileResponse, HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
 import pandas as pd
@@ -22,7 +22,6 @@ app.add_middleware(
 
 # Load datasets
 trade_df = pd.read_csv('Fully_Translated_Country_Names_With_Columns.csv', low_memory=False)
-
 oda_df = pd.read_csv('oda_data.csv', low_memory=False)
 
 # Preprocess and merge datasets
@@ -42,7 +41,6 @@ country_name_corrections = {
     'west bank and gaza strip': 'palestine liberation organization',
     'saint vincent and the grenadines': 'saint vincent & grenadines'
 }
-
 oda_df['recipient_name'] = oda_df['recipient_name'].replace(country_name_corrections)
 
 # Merge datasets
@@ -109,6 +107,42 @@ def country_insights():
 
     html = file_html(p, CDN, "Country Insights")
     return HTMLResponse(content=html)
+
+# ========================= Added Data Analysis Endpoints ========================= #
+
+@app.get("/groupby/")
+def group_by(column: str = Query(...), dataset: str = Query('oda')):
+    data = oda_df if dataset == 'oda' else trade_df
+    if column not in data.columns:
+        return {"error": f"Column '{column}' not found in the {dataset} dataset."}
+
+    grouped_data = data.groupby(column).size().reset_index(name='Count')
+    return grouped_data.to_dict(orient='records')
+
+@app.get("/filter/")
+def filter_data(column: str, value: str, dataset: str = 'oda'):
+    data = oda_df if dataset == 'oda' else trade_df
+    if column not in data.columns:
+        return {"error": f"Column '{column}' not found in the {dataset} dataset."}
+
+    filtered_data = data[data[column] == value]
+    return filtered_data.to_dict(orient='records')
+
+@app.get("/aggregate/")
+def aggregate_data(group_by_column: str, agg_column: str, agg_func: str = 'sum', dataset: str = 'oda'):
+    data = oda_df if dataset == 'oda' else trade_df
+    if group_by_column not in data.columns or agg_column not in data.columns:
+        return {"error": "Invalid columns provided for aggregation."}
+
+    aggregated_data = data.groupby(group_by_column)[agg_column].agg(agg_func).reset_index()
+    return aggregated_data.to_dict(orient='records')
+
+@app.get("/columns/")
+def get_columns(dataset: str = 'oda'):
+    data = oda_df if dataset == 'oda' else trade_df
+    return {"columns": data.columns.tolist()}
+
+# =============================================================================== #
 
 if __name__ == "__main__":
     import uvicorn

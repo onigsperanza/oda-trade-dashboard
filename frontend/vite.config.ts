@@ -12,4 +12,5 @@ export default defineConfig({
       '@': '/src', // Alias for easier imports from the src directory
     },
   },
+ // assetsInclude: ['**/*.md']
 });
