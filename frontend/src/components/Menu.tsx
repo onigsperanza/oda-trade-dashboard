@@ -26,6 +26,9 @@ const Menu: React.FC = () => {
           <Link to="/data">
             <button className="menu-button">{t("dataIntroduction")}</button>
           </Link>
+          <Link to="/data-manipulation">
+            <button className = "menu-button">{i18n.language === 'ko' ? '데이터 조작' : 'Data Manipulation'}</button>
+          </Link>
           <Link to="/trend">
             <button className="menu-button">{t("trendAnalysis")}</button>
           </Link>

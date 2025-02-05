@@ -8,7 +8,7 @@ const DataManipulation: React.FC = () => {
   const { i18n } = useTranslation();
   const [dataset, setDataset] = useState('oda');
   const [columns, setColumns] = useState<string[]>([]);
-  const [operation, setOperation] = useState('groupby');
+  const [operation, setOperation] = useState('view');
   const [selectedColumn, setSelectedColumn] = useState('');
   const [filterValue, setFilterValue] = useState('');
   const [aggColumn, setAggColumn] = useState('');
@@ -24,7 +24,11 @@ const DataManipulation: React.FC = () => {
 
   // Handle Operation Submission
   const handleSubmit = () => {
-    if (operation === 'groupby') {
+    if (operation === 'view') {
+      axios.get(`http://localhost:8000/${dataset}_data`)
+        .then(res => setResult(res.data))
+        .catch(err => console.error(err));
+    } else if (operation === 'groupby') {
       axios.get(`http://localhost:8000/groupby/?column=${selectedColumn}&dataset=${dataset}`)
         .then(res => setResult(res.data))
         .catch(err => console.error(err));
@@ -37,6 +41,23 @@ const DataManipulation: React.FC = () => {
         .then(res => setResult(res.data))
         .catch(err => console.error(err));
     }
+  };
+
+  // CSV Export Function
+  const exportToCSV = () => {
+    const csvContent = [
+      Object.keys(result[0]).join(','), // CSV Header
+      ...result.map(row => Object.values(row).join(',')) // CSV Rows
+    ].join('\n');
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `${operation}_result.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   return (
@@ -54,16 +75,21 @@ const DataManipulation: React.FC = () => {
         {/* Select Operation */}
         <label>{i18n.language === 'ko' ? '작업 선택' : 'Select Operation'}: </label>
         <select value={operation} onChange={e => setOperation(e.target.value)}>
+          <option value="view">{i18n.language === 'ko' ? '데이터 보기' : 'View Dataset'}</option>
           <option value="groupby">{i18n.language === 'ko' ? '그룹화' : 'Group By'}</option>
           <option value="filter">{i18n.language === 'ko' ? '필터' : 'Filter'}</option>
           <option value="aggregate">{i18n.language === 'ko' ? '집계' : 'Aggregate'}</option>
         </select>
 
-        {/* Select Column */}
-        <label>{i18n.language === 'ko' ? '컬럼 선택' : 'Select Column'}: </label>
-        <select value={selectedColumn} onChange={e => setSelectedColumn(e.target.value)}>
-          {columns.map(col => <option key={col} value={col}>{col}</option>)}
-        </select>
+        {/* Select Column for Grouping or Filtering */}
+        {(operation !== 'view') && (
+          <>
+            <label>{i18n.language === 'ko' ? '컬럼 선택' : 'Select Column'}: </label>
+            <select value={selectedColumn} onChange={e => setSelectedColumn(e.target.value)}>
+              {columns.map(col => <option key={col} value={col}>{col}</option>)}
+            </select>
+          </>
+        )}
 
         {/* Filter or Aggregate Options */}
         {operation === 'filter' && (
@@ -94,10 +120,36 @@ const DataManipulation: React.FC = () => {
         <button onClick={handleSubmit}>{i18n.language === 'ko' ? '실행' : 'Run'}</button>
       </div>
 
-      {/* Display Results */}
+      {/* Display Results in Table */}
       <div className="results">
         <h2>{i18n.language === 'ko' ? '결과' : 'Results'}</h2>
-        <pre>{JSON.stringify(result, null, 2)}</pre>
+        {result.length > 0 && (
+          <table>
+            <thead>
+              <tr>
+                {Object.keys(result[0]).map((key, index) => (
+                  <th key={index}>{key}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {result.map((row, idx) => (
+                <tr key={idx}>
+                  {Object.values(row).map((value, index) => (
+                    <td key={index}>{String(value)}</td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+
+        {/* Export CSV Button */}
+        {result.length > 0 && (
+          <button onClick={exportToCSV}>
+            {i18n.language === 'ko' ? 'CSV로 내보내기' : 'Export as CSV'}
+          </button>
+        )}
       </div>
 
       {/* Return to Home Button */}

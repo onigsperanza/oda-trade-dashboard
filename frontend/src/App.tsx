@@ -11,6 +11,7 @@ import { ThemeProvider } from "./components/ui";
 import "./i18n";
 import Menu from "./components/Menu";
 import DataIntroduction from "./components/DataIntroduction";
+import DataManipulation from "./components/DataManipulation";
 
 
 
@@ -34,6 +35,7 @@ const App: React.FC = () => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/menu" element={<Menu />} />
+            <Route path="/data-manipulation" element={<DataManipulation />} />
             <Route path="/trend" element={<TrendAnalysis />} />
             <Route path="/correlation" element={<CorrelationAnalysis />} />
             <Route path="/country-insights" element={<CountryInsights />} />
