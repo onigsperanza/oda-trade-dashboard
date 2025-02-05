@@ -23,7 +23,7 @@ app.add_middleware(
 
 # Load datasets with error handling
 try:
-    trade_df = pd.read_csv('Fully_Translated_Country_Names_With_Columns.csv', low_memory=False)
+    trade_df = pd.read_csv('trade.csv', low_memory=False)
 except FileNotFoundError:
     raise HTTPException(status_code=500, detail="Trade data file not found.")
 except Exception as e:
@@ -61,13 +61,28 @@ try:
     
     trade_df = trade_df.fillna(0)
     oda_df = oda_df.fillna(0)
+    merged_df = merged_df.fillna(0)
 
-    # Aggregate data
+    # Aggregate data without year
     country_trade_oda = merged_df.groupby('Country Name').agg({
         'Export Value Total': 'sum',
         'Import Value Total': 'sum',
         'usd_outstanding': 'sum'
     }).reset_index()
+
+    country_trade_oda = country_trade_oda.fillna(0)
+
+    # Aggregate data with year
+    country_trade_oda_year = merged_df.groupby(['Country Name', 'year']).agg({
+        'Export Value Total': 'sum',
+        'Import Value Total': 'sum',
+        'usd_outstanding': 'sum'
+    }).reset_index()
+
+
+    country_trade_oda_year = country_trade_oda_year.fillna(0)
+
+
 except Exception as e:
     raise HTTPException(status_code=500, detail=f"Error during preprocessing: {str(e)}")
 
@@ -98,21 +113,28 @@ def get_merged_data():
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error fetching merged data: {str(e)}")
 
-@app.get("/aggregated_data")
+@app.get("/aggregated")
 def get_aggregated_data():
     try:
         return JSONResponse(content=country_trade_oda.to_dict(orient='records'))
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error fetching aggregated data: {str(e)}")
-
-@app.get("/heatmap")
-def get_heatmap():
+    
+@app.get("/aggregated_year")
+def get_aggregated_data():
     try:
-        if not os.path.exists('interactive_heatmap_with_index.html'):
-            raise FileNotFoundError("Heatmap file not found.")
-        return FileResponse('interactive_heatmap_with_index.html')
+        return JSONResponse(content=country_trade_oda_year.to_dict(orient='records'))
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error fetching heatmap: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error fetching aggregated data: {str(e)}")
+
+# @app.get("/heatmap")
+# def get_heatmap():
+#     try:
+#         if not os.path.exists('interactive_heatmap_with_index.html'):
+#             raise FileNotFoundError("Heatmap file not found.")
+#         return FileResponse('interactive_heatmap_with_index.html')
+#     except Exception as e:
+#         raise HTTPException(status_code=500, detail=f"Error fetching heatmap: {str(e)}")
 
 @app.get("/trend_analysis")
 def trend_analysis():

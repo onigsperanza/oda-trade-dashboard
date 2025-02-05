@@ -5,7 +5,6 @@ import { useTranslation } from "react-i18next";
 import Home from "./components/Home";
 import TrendAnalysis from "./components/TrendAnalysis";
 import CorrelationAnalysis from "./components/CorrelationAnalysis";
-import CountryInsights from "./components/CountryInsights";
 import InteractiveHeatmap from "./components/InteractiveHeatmap";
 import { ThemeProvider } from "./components/ui";
 import "./i18n";
@@ -38,7 +37,6 @@ const App: React.FC = () => {
             <Route path="/data-manipulation" element={<DataManipulation />} />
             <Route path="/trend" element={<TrendAnalysis />} />
             <Route path="/correlation" element={<CorrelationAnalysis />} />
-            <Route path="/country-insights" element={<CountryInsights />} />
             <Route path="/heatmap" element={<InteractiveHeatmap />} />
             <Route path="/data" element={<DataIntroduction />} />
           </Routes>

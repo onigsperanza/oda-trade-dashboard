@@ -27,16 +27,13 @@ const Menu: React.FC = () => {
             <button className="menu-button">{t("dataIntroduction")}</button>
           </Link>
           <Link to="/data-manipulation">
-            <button className = "menu-button">{i18n.language === 'ko' ? '데이터 조작' : 'Data Manipulation'}</button>
+            <button className = "menu-button">{i18n.language === 'ko' ? '데이터 보기 및 조작' : 'Data View and Manipulation'}</button>
           </Link>
           <Link to="/trend">
             <button className="menu-button">{t("trendAnalysis")}</button>
           </Link>
           <Link to="/correlation">
             <button className="menu-button">{t("correlationAnalysis")}</button>
-          </Link>
-          <Link to="/country-insights">
-            <button className="menu-button">{t("countryInsights")}</button>
           </Link>
           <Link to="/heatmap">
             <button className="menu-button">{t("interactiveHeatmap")}</button>

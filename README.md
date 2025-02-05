@@ -12,7 +12,7 @@ This is a full-stack web application for analyzing Official Development Assistan
 │   ├── main.py
 │   ├── requirements.txt
 │   ├── Dockerfile  # Ensure this Dockerfile is correctly placed in the backend directory.
-│   ├── Fully_Translated_Country_Names_With_Columns.csv
+│   ├── trade.csv
 │   ├── oda_data.csv
 │   └── /data
 │       ├── ne_110m_admin_0_countries.shp
@@ -74,20 +74,43 @@ To stop the application, press **Ctrl + C** in your terminal, then run:
 docker-compose down
 ```
 
+
+or if you want execute app without docker, just run
+```bash
+cd backend
+py main.py
+```
+```bash
+cd frontend
+npm run dev
+or
+npm run build
+npm install -g serve
+serve -s build
+```
+likewise execute both backend and frontend separately and sequentially.
+and samely you can acess at
+
+- **Frontend**: [http://localhost:3000](http://localhost:3000)
+- **Backend API**: [http://localhost:8000](http://localhost:8000)
+
+Also I uploaded docker image of both front and backend in my dockerhub link below just in case
+
+
 ---
 
 ## **Features**
 
-1. **Trend Analysis**: Examine how trade and ODA values have evolved over time.
-2. **Correlation Analysis**: Analyze relationships between ODA amounts and trade statistics.
-3. **Country-Specific Insights**: Explore key insights and visualizations for individual countries.
-4. **Interactive Heatmap**: Clickable Bokeh heatmap for detailed country data.
+1. **Trend Analysis, predictive analysis**: Examine how trade and ODA values have evolved over time.
+2. **Correlation and multidimensional analysis**: Analyze relationships between ODA amounts and trade statistics.
+3. **Data view and manipulation and Export**: YOU can Search, filter, view and manipulate dataset in this platform and export it as a csv format.
+4. **Interactive Heatmap(Geographical)**: Clickable Bokeh heatmap for detailed country data.
 5. **OAuth Authentication**: Secure login via Google OAuth.
 6. **Dark/Light Mode**: Toggle between themes.
 7. **Multilingual Support**: Switch between Korean and English.
-8. **Data Filtering**: Search, filter, and view data in table or card format.
 
 ---
+
 
 ## **Contact**
 

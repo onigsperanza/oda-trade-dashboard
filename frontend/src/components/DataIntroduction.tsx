@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState }  from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import './DataIntroduction.css';
@@ -6,7 +6,9 @@ import './DataIntroduction.css';
 const DataIntroduction: React.FC = () => {
   const { i18n } = useTranslation();
   const navigate = useNavigate();
-
+  const toggleLanguage = () => {
+    i18n.changeLanguage(i18n.language === 'en' ? 'ko' : 'en');
+  };
   const handleBackToHome = () => {
     navigate('/');
   };
@@ -22,31 +24,51 @@ const DataIntroduction: React.FC = () => {
       </ul>
 
       <h2>Sample Data</h2>
-      <h3>ODA Dataset (First 2 Rows)</h3>
+      <h3>ODA Dataset (First Row)</h3>
       <table>
         <thead>
           <tr>
-            <th>Donor Name</th><th>Recipient Name</th><th>Purpose Code</th><th>Purpose Description</th>
-            <th>Disbursement</th><th>Commitment</th><th>Year</th><th>Channel</th>
+            <th>Project Number</th><th>Year</th><th>Donor Name</th><th>Agency Name</th>
+            <th>CRS ID</th><th>Recipient Name</th><th>Channel Code</th><th>Nature of Submission</th>
+            <th>Bi/Multi</th><th>Finance Type</th><th>Repay Date 1</th><th>Repay Date 2</th>
+            <th>USD Interest</th><th>USD Outstanding</th><th>USD Arrears Principal</th>
+            <th>USD Arrears Interest</th><th>USD Outstanding Next Year</th><th>USD Interest Next Year</th>
+            <th>Recipient Code</th><th>Nature of Submission Disbursement</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td>Donor A</td><td>Country X</td><td>11110</td><td>Education Support</td><td>500,000 USD</td><td>550,000 USD</td><td>2020</td><td>Bilateral</td></tr>
-          <tr><td>Donor B</td><td>Country Y</td><td>12220</td><td>Health Infrastructure</td><td>750,000 USD</td><td>800,000 USD</td><td>2021</td><td>Multilateral</td></tr>
+          <tr>
+            <td>20132000001</td><td>2013</td><td>Republic of Korea</td><td>NaN</td>
+            <td>2013001195</td><td>Cameroon</td><td>10000.0</td><td>New commitment</td>
+            <td>Bilateral</td><td>ODA</td><td>NaN</td><td>NaN</td><td>0</td><td>0</td><td>0</td><td>0</td>
+            <td>0</td><td>0</td><td>229.0</td><td>Annual split</td>
+          </tr>
         </tbody>
       </table>
 
-      <h3>Trade Dataset (First 2 Rows)</h3>
+      <h3>Trade Data (First row)</h3>
       <table>
         <thead>
           <tr>
-            <th>Country Name</th><th>Export Value Total</th><th>Import Value Total</th><th>Balance Total</th>
-            <th>Export Weight Total</th><th>Import Weight Total</th><th>Year</th><th>HS Code Description</th>
+            <th>Country Name</th><th>Export Value 2013</th><th>Import Value 2013</th>
+            <th>Export Value 2014</th><th>Import Value 2014</th><th>Export Value 2015</th>
+            <th>Import Value 2015</th><th>Export Value 2016</th><th>Import Value 2016</th>
+            <th>Export Value 2017</th><th>Export Value 2020</th><th>Import Value 2020</th>
+            <th>Export Value 2021</th><th>Import Value 2021</th><th>Export Value 2022</th>
+            <th>Import Value 2022</th><th>Export Value 2023</th><th>Import Value 2023</th>
+            <th>Export Value Total</th><th>Import Value Total</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td>China</td><td>1,444,429,471 USD</td><td>1,064,032,041 USD</td><td>380,397,430 USD</td><td>430,198,100,000 kg</td><td>391,822,900,000 kg</td><td>2020</td><td>Electronics</td></tr>
-          <tr><td>United States</td><td>763,088,812 USD</td><td>558,022,084 USD</td><td>205,066,728 USD</td><td>178,187,670,000 kg</td><td>370,341,500,000 kg</td><td>2021</td><td>Machinery</td></tr>
+          <tr>
+            <td>China (People's Republic of)</td><td>145,869,498.0 USD</td><td>83,052,877.0 USD</td>
+            <td>145,287,701.0 USD</td><td>90,082,226.0 USD</td><td>137,123,934.0 USD</td>
+            <td>90,250,275.0 USD</td><td>124,432,941.0 USD</td><td>86,980,135.0 USD</td>
+            <td>142,120,000.0 USD</td><td>132,565,445.0 USD</td><td>108,884,645.0 USD</td>
+            <td>162,912,974.0 USD</td><td>138,628,127.0 USD</td><td>155,789,389.0 USD</td>
+            <td>154,576,314.0 USD</td><td>124,817,682.0 USD</td><td>142,857,338.0 USD</td>
+            <td>1,569,247,152 USD</td><td>1,206,889,379 USD</td>
+          </tr>
         </tbody>
       </table>
 
@@ -67,14 +89,9 @@ const DataIntroduction: React.FC = () => {
         <li><strong>Country Name</strong>: The trading partner country.</li>
         <li><strong>Export Value Total</strong>: The total export value in USD.</li>
         <li><strong>Import Value Total</strong>: The total import value in USD.</li>
-        <li><strong>Balance Total</strong>: The total trade balance (export - import) in USD.</li>
-        <li><strong>Export Weight Total</strong>: The total weight of exported goods.</li>
-        <li><strong>Import Weight Total</strong>: The total weight of imported goods.</li>
-        <li><strong>Year</strong>: The year of the trade transaction.</li>
-        <li><strong>HS Code Description</strong>: The description of the product category based on the Harmonized System (HS) codes.</li>
       </ul>
 
-      <h2>데이터 통합</h2>
+      <h2>Data Aggregation</h2>
         <ul>
           <li>The datasets were merged using common country identifiers to explore relationships between ODA flows and trade volumes.</li>
         </ul>
@@ -126,30 +143,51 @@ const DataIntroduction: React.FC = () => {
       </ul>
 
       <h2>샘플 데이터</h2>
-      <h3>ODA 데이터셋 (첫 2개 행)</h3>
+      <h3>ODA 데이터셋 (첫 행)</h3>
       <table>
         <thead>
           <tr>
-            <th>공여국 이름</th><th>수원국 이름</th><th>목적 코드</th><th>목적 설명</th>
-            <th>집행 금액</th><th>약속 금액</th><th>연도</th><th>채널</th>
+            <th>프로젝트 번호</th><th>년도</th><th>기부국</th><th>기관명</th>
+            <th>CRS ID</th><th>수혜국</th><th>채널 코드</th><th>제출 유형</th>
+            <th>양/다자</th><th>재정 유형</th><th>상환일 1</th><th>상환일 2</th>
+            <th>USD 이자</th><th>USD 미지급액</th><th>USD 체납 원금</th>
+            <th>USD 체납 이자</th><th>다음 해 USD 미지급액</th><th>다음 해 USD 이자</th>
+            <th>수혜국 코드</th><th>제출 유형(지급)</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td>Donor A</td><td>Country X</td><td>11110</td><td>교육 지원</td><td>500,000 USD</td><td>550,000 USD</td><td>2020</td><td>양자간</td></tr>
-          <tr><td>Donor B</td><td>Country Y</td><td>12220</td><td>보건 인프라</td><td>750,000 USD</td><td>800,000 USD</td><td>2021</td><td>다자간</td></tr>
+          <tr>
+            <td>20132000001</td><td>2013</td><td>대한민국</td><td>NaN</td>
+            <td>2013001195</td><td>카메룬</td><td>10000.0</td><td>새로운 약속</td>
+            <td>양자</td><td>ODA</td><td>NaN</td><td>NaN</td><td>0</td><td>0</td><td>0</td><td>0</td>
+            <td>0</td><td>0</td><td>229.0</td><td>연간 분할</td>
+          </tr>
         </tbody>
       </table>
 
-      <h3>무역 데이터셋 (첫 2개 행)</h3>
+      <h3>무역 데이터(첫 행):</h3>
       <table>
         <thead>
           <tr>
-            <th>국가 이름</th><th>총 수출액</th><th>총 수입액</th><th>무역 수지</th>
+            <th>국가명</th><th>2013년 수출액</th><th>2013년 수입액</th>
+            <th>2014년 수출액</th><th>2014년 수입액</th><th>2015년 수출액</th>
+            <th>2015년 수입액</th><th>2016년 수출액</th><th>2016년 수입액</th>
+            <th>2017년 수출액</th><th>2020년 수출액</th><th>2020년 수입액</th>
+            <th>2021년 수출액</th><th>2021년 수입액</th><th>2022년 수출액</th>
+            <th>2022년 수입액</th><th>2023년 수출액</th><th>2023년 수입액</th>
+            <th>총 수출액</th><th>총 수입액</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td>중국</td><td>1,444,429,471 USD</td><td>1,064,032,041 USD</td><td>380,397,430 USD</td></tr>
-          <tr><td>미국</td><td>763,088,812 USD</td><td>558,022,084 USD</td><td>205,066,728 USD</td></tr>
+          <tr>
+            <td>중국 (중화인민공화국)</td><td>145,869,498.0 USD</td><td>83,052,877.0 USD</td>
+            <td>145,287,701.0 USD</td><td>90,082,226.0 USD</td><td>137,123,934.0 USD</td>
+            <td>90,250,275.0 USD</td><td>124,432,941.0 USD</td><td>86,980,135.0 USD</td>
+            <td>142,120,000.0 USD</td><td>132,565,445.0 USD</td><td>108,884,645.0 USD</td>
+            <td>162,912,974.0 USD</td><td>138,628,127.0 USD</td><td>155,789,389.0 USD</td>
+            <td>154,576,314.0 USD</td><td>124,817,682.0 USD</td><td>142,857,338.0 USD</td>
+            <td>1,569,247,152 USD</td><td>1,206,889,379 USD</td>
+          </tr>
         </tbody>
       </table>
 
@@ -170,11 +208,6 @@ const DataIntroduction: React.FC = () => {
           <li><strong>국가 명칭</strong>: 무역 상대국입니다.</li>
           <li><strong>총 수출액</strong>: 미국 달러 기준의 총 수출액입니다.</li>
           <li><strong>총 수입액</strong>: 미국 달러 기준의 총 수입액입니다.</li>
-          <li><strong>총 무역수지</strong>: 총 무역수지(수출액 - 수입액)를 미국 달러 기준으로 나타냅니다.</li>
-          <li><strong>총 수출 중량</strong>: 수출된 상품의 총 중량입니다.</li>
-          <li><strong>총 수입 중량</strong>: 수입된 상품의 총 중량입니다.</li>
-          <li><strong>연도</strong>: 무역 거래가 이루어진 연도입니다.</li>
-          <li><strong>HS 코드 설명</strong>: 조화 체계(HS 코드)를 기반으로 한 상품 분류의 설명입니다.</li>
         </ul>
 
         <h2>데이터 통합</h2>
@@ -220,6 +253,9 @@ const DataIntroduction: React.FC = () => {
 
   return (
     <div className="data-introduction">
+      <button onClick={toggleLanguage} className="toggle-button">
+        {i18n.language === 'en' ? '한국어' : 'English'}
+      </button>
       {i18n.language === 'ko' ? koreanContent : englishContent}
       <button className="back-to-home" onClick={handleBackToHome}>
         {i18n.language === 'ko' ? '홈으로 돌아가기' : 'Back to Home'}

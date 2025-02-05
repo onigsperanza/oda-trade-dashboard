@@ -20,9 +20,9 @@ const Home: React.FC = () => {
         <header className="navbar">
           <h1 className="navbar-title">{t("welcome")}</h1>
           <nav className="menu">
+            <Link to="/data-manipulation" className="menu-link">{t("dataManipulation")}</Link>
             <Link to="/trend" className="menu-link">{t("trendAnalysis")}</Link>
             <Link to="/correlation" className="menu-link">{t("correlationAnalysis")}</Link>
-            <Link to="/country-insights" className="menu-link">{t("countryInsights")}</Link>
             <Link to="/heatmap" className="menu-link">{t("interactiveHeatmap")}</Link>
           </nav>
         </header>

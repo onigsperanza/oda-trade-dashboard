@@ -25,7 +25,7 @@ const DataManipulation: React.FC = () => {
   // Handle Operation Submission
   const handleSubmit = () => {
     if (operation === 'view') {
-      axios.get(`http://localhost:8000/${dataset}_data`)
+      axios.get(`http://localhost:8000/${dataset === 'aggregated' || dataset === 'aggregated_year' ? dataset : dataset + '_data'}`)
         .then(res => setResult(res.data))
         .catch(err => console.error(err));
     } else if (operation === 'groupby') {
@@ -62,7 +62,7 @@ const DataManipulation: React.FC = () => {
 
   return (
     <div className="data-manipulation-container">
-      <h1>{i18n.language === 'ko' ? '데이터 조작 인터페이스' : 'Data Manipulation Interface'}</h1>
+      <h1>{i18n.language === 'ko' ? '데이터 보기 및 조작 인터페이스' : 'Data View and Manipulation Interface'}</h1>
 
       <div className="controls">
         {/* Select Dataset */}
@@ -70,6 +70,8 @@ const DataManipulation: React.FC = () => {
         <select value={dataset} onChange={e => setDataset(e.target.value)}>
           <option value="oda">ODA</option>
           <option value="trade">Trade</option>
+          <option value="aggregated">Aggregated</option>
+          <option value="aggregated_year">Aggregated (Year)</option>
         </select>
 
         {/* Select Operation */}
