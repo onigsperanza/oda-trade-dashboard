@@ -53,24 +53,35 @@ country_trade_oda = merged_df.groupby('Country Name').agg({
     'usd_outstanding': 'sum'
 }).reset_index()
 
+trade_df = trade_df.fillna(0)
+oda_df = oda_df.fillna(0)
+
 @app.get("/")
 def root():
     return {"message": "Welcome to the ODA and Trade API!"}
 
+# where(pd.notnull(trade_df), None)
+
 @app.get("/trade_data")
 def get_trade_data():
-    return JSONResponse(content=trade_df.to_dict(orient='records'))
+    # Replace NaN values with None to make them JSON serializable
+    trade_data = trade_df
+    return JSONResponse(content=trade_data.to_dict(orient='records'))
 
 @app.get("/oda_data")
 def get_oda_data():
-    return JSONResponse(content=oda_df.to_dict(orient='records'))
+    # Replace NaN values with None to make them JSON serializable
+    oda_data = oda_df
+    return JSONResponse(content=oda_data.to_dict(orient='records'))
 
 @app.get("/merged_data")
 def get_merged_data():
+    merged_df = merged_df.fillna(0)
     return JSONResponse(content=merged_df.to_dict(orient='records'))
 
 @app.get("/aggregated_data")
 def get_aggregated_data():
+    country_trade_oda = country_trade_oda.fillna(0)
     return JSONResponse(content=country_trade_oda.to_dict(orient='records'))
 
 @app.get("/heatmap")

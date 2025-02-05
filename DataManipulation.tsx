@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import './DataManipulation.css';
 
 const DataManipulation: React.FC = () => {
@@ -97,6 +98,13 @@ const DataManipulation: React.FC = () => {
       <div className="results">
         <h2>{i18n.language === 'ko' ? '결과' : 'Results'}</h2>
         <pre>{JSON.stringify(result, null, 2)}</pre>
+      </div>
+
+      {/* Return to Home Button */}
+      <div className="home-button">
+        <Link to="/">
+          <button>{i18n.language === 'ko' ? '홈으로 돌아가기' : 'Return to Home'}</button>
+        </Link>
       </div>
     </div>
   );

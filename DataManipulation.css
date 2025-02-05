@@ -1,50 +1,68 @@
 .data-manipulation-container {
-    padding: 20px;
-    font-family: Arial, sans-serif;
-  }
-  
-  .controls {
-    margin-bottom: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    align-items: center;
-  }
-  
-  .controls label {
-    font-weight: bold;
-  }
-  
-  .controls select, .controls input {
-    padding: 8px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-  }
-  
-  button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #0056b3;
-  }
-  
-  .results {
-    background-color: #f8f8f8;
-    padding: 20px;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    max-height: 400px;
-    overflow-y: auto;
-  }
-  
-  pre {
-    white-space: pre-wrap;
-    word-wrap: break-word;
-  }
-  
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.controls {
+  margin-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  align-items: center;
+}
+
+.controls label {
+  font-weight: bold;
+}
+
+.controls select, .controls input {
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.results {
+  background-color: #f8f8f8;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.home-button {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.home-button button {
+  padding: 10px 25px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.home-button button:hover {
+  background-color: #218838;
+}
