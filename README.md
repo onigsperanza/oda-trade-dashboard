@@ -94,9 +94,10 @@ and samely you can acess at
 - **Frontend**: [http://localhost:3000](http://localhost:3000)
 - **Backend API**: [http://localhost:8000](http://localhost:8000)
 
-Also I uploaded docker image of both front and backend in my dockerhub link below just in case
-
-
+Also I uploaded docker image of both front and backend in my dockerhub link below just in case.
+https://hub.docker.com/repository/docker/doeonkim95/oda-trade-dashboard-frontend/general
+https://hub.docker.com/repository/docker/doeonkim95/oda-trade-dashboard-backend/general
+You can just load them from my dockerhub and execute container using docker-compose.yaml in this folder.
 ---
 
 ## **Features**
