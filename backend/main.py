@@ -127,54 +127,54 @@ def get_aggregated_data():
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error fetching aggregated data: {str(e)}")
 
-# @app.get("/heatmap")
-# def get_heatmap():
+@app.get("/heatmap")
+def get_heatmap():
+    try:
+        if not os.path.exists('interactive_heatmap_with_index.html'):
+            raise FileNotFoundError("Heatmap file not found.")
+        return FileResponse('interactive_heatmap_with_index.html')
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error fetching heatmap: {str(e)}")
+
+# @app.get("/trend_analysis")
+# def trend_analysis():
 #     try:
-#         if not os.path.exists('interactive_heatmap_with_index.html'):
-#             raise FileNotFoundError("Heatmap file not found.")
-#         return FileResponse('interactive_heatmap_with_index.html')
+#         p = figure(title="Trade Trends Over Time", x_range=['2013-2017', '2017-2022'], width=800, height=400)
+#         p.line(['2013-2017', '2017-2022'], [trade_df['Export Value 2013-2017'].sum(), trade_df['Export Value 2017-2022'].sum()], legend_label="Exports", line_width=2)
+#         p.line(['2013-2017', '2017-2022'], [trade_df['Import Value 2013-2017'].sum(), trade_df['Import Value 2017-2022'].sum()], legend_label="Imports", line_width=2, color="orange")
+
+#         html = file_html(p, CDN, "Trade Trends")
+#         return HTMLResponse(content=html)
 #     except Exception as e:
-#         raise HTTPException(status_code=500, detail=f"Error fetching heatmap: {str(e)}")
+#         raise HTTPException(status_code=500, detail=f"Error generating trend analysis: {str(e)}")
 
-@app.get("/trend_analysis")
-def trend_analysis():
-    try:
-        p = figure(title="Trade Trends Over Time", x_range=['2013-2017', '2017-2022'], width=800, height=400)
-        p.line(['2013-2017', '2017-2022'], [trade_df['Export Value 2013-2017'].sum(), trade_df['Export Value 2017-2022'].sum()], legend_label="Exports", line_width=2)
-        p.line(['2013-2017', '2017-2022'], [trade_df['Import Value 2013-2017'].sum(), trade_df['Import Value 2017-2022'].sum()], legend_label="Imports", line_width=2, color="orange")
+# @app.get("/correlation_analysis")
+# def correlation_analysis():
+#     try:
+#         export_corr, _ = pearsonr(country_trade_oda['usd_outstanding'], country_trade_oda['Export Value Total'])
+#         import_corr, _ = pearsonr(country_trade_oda['usd_outstanding'], country_trade_oda['Import Value Total'])
 
-        html = file_html(p, CDN, "Trade Trends")
-        return HTMLResponse(content=html)
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error generating trend analysis: {str(e)}")
+#         p = figure(title="Correlation Between ODA and Trade", width=800, height=400)
+#         p.circle(country_trade_oda['usd_outstanding'], country_trade_oda['Export Value Total'], size=10, color="navy", alpha=0.5, legend_label=f"Exports Correlation: {export_corr:.2f}")
+#         p.circle(country_trade_oda['usd_outstanding'], country_trade_oda['Import Value Total'], size=10, color="orange", alpha=0.5, legend_label=f"Imports Correlation: {import_corr:.2f}")
 
-@app.get("/correlation_analysis")
-def correlation_analysis():
-    try:
-        export_corr, _ = pearsonr(country_trade_oda['usd_outstanding'], country_trade_oda['Export Value Total'])
-        import_corr, _ = pearsonr(country_trade_oda['usd_outstanding'], country_trade_oda['Import Value Total'])
+#         html = file_html(p, CDN, "Correlation Analysis")
+#         return HTMLResponse(content=html)
+#     except Exception as e:
+#         raise HTTPException(status_code=500, detail=f"Error generating correlation analysis: {str(e)}")
 
-        p = figure(title="Correlation Between ODA and Trade", width=800, height=400)
-        p.circle(country_trade_oda['usd_outstanding'], country_trade_oda['Export Value Total'], size=10, color="navy", alpha=0.5, legend_label=f"Exports Correlation: {export_corr:.2f}")
-        p.circle(country_trade_oda['usd_outstanding'], country_trade_oda['Import Value Total'], size=10, color="orange", alpha=0.5, legend_label=f"Imports Correlation: {import_corr:.2f}")
+# @app.get("/country_insights")
+# def country_insights():
+#     try:
+#         top_countries = country_trade_oda.nlargest(5, 'usd_outstanding')
 
-        html = file_html(p, CDN, "Correlation Analysis")
-        return HTMLResponse(content=html)
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error generating correlation analysis: {str(e)}")
+#         p = figure(title="Top 5 Countries by ODA Outstanding", x_range=top_countries['Country Name'], width=800, height=400)
+#         p.vbar(x=top_countries['Country Name'], top=top_countries['usd_outstanding'], width=0.9)
 
-@app.get("/country_insights")
-def country_insights():
-    try:
-        top_countries = country_trade_oda.nlargest(5, 'usd_outstanding')
-
-        p = figure(title="Top 5 Countries by ODA Outstanding", x_range=top_countries['Country Name'], width=800, height=400)
-        p.vbar(x=top_countries['Country Name'], top=top_countries['usd_outstanding'], width=0.9)
-
-        html = file_html(p, CDN, "Country Insights")
-        return HTMLResponse(content=html)
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error generating country insights: {str(e)}")
+#         html = file_html(p, CDN, "Country Insights")
+#         return HTMLResponse(content=html)
+#     except Exception as e:
+#         raise HTTPException(status_code=500, detail=f"Error generating country insights: {str(e)}")
 
 # ========================= Added Data Analysis Endpoints with Error Handling ========================= #
 
