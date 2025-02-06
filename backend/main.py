@@ -90,42 +90,54 @@ except Exception as e:
 def root():
     return {"message": "Welcome to the ODA and Trade API!"}
 
+def paginate_data(data: pd.DataFrame, page: int, limit: int):
+    """Helper function to handle pagination"""
+    start = (page - 1) * limit
+    end = start + limit
+    return data.iloc[start:end].to_dict(orient='records')
+
+
 @app.get("/trade_data")
-def get_trade_data():
+def get_trade_data(page: int = Query(1, alias="page"), limit: int = Query(50, alias="limit")):
     try:
-        trade_data = trade_df
-        return JSONResponse(content=trade_data.to_dict(orient='records'))
+        paginated_data = paginate_data(trade_df, page, limit)
+        return JSONResponse(content=paginated_data)
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error fetching trade data: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error fetching ODA data: {str(e)}")
 
 @app.get("/oda_data")
-def get_oda_data():
+def get_oda_data(page: int = Query(1, alias="page"), limit: int = Query(50, alias="limit")):
     try:
-        oda_data = oda_df
-        return JSONResponse(content=oda_data.to_dict(orient='records'))
+        paginated_data = paginate_data(oda_df, page, limit)
+        return JSONResponse(content=paginated_data)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error fetching ODA data: {str(e)}")
 
 @app.get("/merged_data")
-def get_merged_data():
+def get_merged_data(page: int = Query(1, alias="page"), limit: int = Query(50, alias="limit")):
     try:
-        return JSONResponse(content=merged_df.to_dict(orient='records'))
+        paginated_data = paginate_data(merged_df, page, limit)
+        return JSONResponse(content=paginated_data)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error fetching merged data: {str(e)}")
 
-@app.get("/aggregated")
-def get_aggregated_data():
+@app.get("/aggregated_data")
+def get_aggregated_data(page: int = Query(1, alias="page"), limit: int = Query(50, alias="limit")):
     try:
-        return JSONResponse(content=country_trade_oda.to_dict(orient='records'))
+        paginated_data = paginate_data(country_trade_oda, page, limit)
+        return JSONResponse(content=paginated_data)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error fetching aggregated data: {str(e)}")
-    
-@app.get("/aggregated_year")
-def get_aggregated_data():
+
+@app.get("/aggregated_year_data")
+def get_aggregated_year_data(page: int = Query(1, alias="page"), limit: int = Query(50, alias="limit")):
     try:
-        return JSONResponse(content=country_trade_oda_year.to_dict(orient='records'))
+        paginated_data = paginate_data(country_trade_oda_year, page, limit)
+        return JSONResponse(content=paginated_data)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error fetching aggregated data: {str(e)}")
+
+
 
 @app.get("/heatmap")
 def get_heatmap():

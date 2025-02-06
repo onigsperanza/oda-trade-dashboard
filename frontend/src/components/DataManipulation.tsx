@@ -15,32 +15,45 @@ const DataManipulation: React.FC = () => {
   const [aggFunc, setAggFunc] = useState('sum');
   const [result, setResult] = useState<any[]>([]);
 
+  // Pagination states
+  const [currentPage, setCurrentPage] = useState(1);
+  const rowsPerPage = 50; // Number of rows per page
+
   // Fetch available columns based on dataset
   useEffect(() => {
     axios.get(`http://localhost:8000/columns/?dataset=${dataset}`)
-      .then(res => setColumns(res.data.columns))
+      .then(res => {
+        setColumns(res.data.columns);
+        if (res.data.columns.length > 0) {
+          setSelectedColumn(res.data.columns[0]); // ✅ Auto-select first column
+        }
+      })
       .catch(err => console.error(err));
   }, [dataset]);
 
+  // Fetch Data when dataset or page changes
+  useEffect(() => {
+    axios.get(`http://localhost:8000/${dataset}_data?page=${currentPage}&limit=${rowsPerPage}`)
+      .then(res => setResult(res.data))
+      .catch(err => console.error(err));
+  }, [dataset, currentPage]);
+
   // Handle Operation Submission
   const handleSubmit = () => {
+    let apiUrl = '';
     if (operation === 'view') {
-      axios.get(`http://localhost:8000/${dataset === 'aggregated' || dataset === 'aggregated_year' ? dataset : dataset + '_data'}`)
-        .then(res => setResult(res.data))
-        .catch(err => console.error(err));
+      apiUrl = `http://localhost:8000/${dataset}_data?page=${currentPage}&limit=${rowsPerPage}`;
     } else if (operation === 'groupby') {
-      axios.get(`http://localhost:8000/groupby/?column=${selectedColumn}&dataset=${dataset}`)
-        .then(res => setResult(res.data))
-        .catch(err => console.error(err));
+      apiUrl = `http://localhost:8000/groupby/?column=${selectedColumn}&dataset=${dataset}`;
     } else if (operation === 'filter') {
-      axios.get(`http://localhost:8000/filter/?column=${selectedColumn}&value=${filterValue}&dataset=${dataset}`)
-        .then(res => setResult(res.data))
-        .catch(err => console.error(err));
+      apiUrl = `http://localhost:8000/filter/?column=${selectedColumn}&value=${filterValue}&dataset=${dataset}`;
     } else if (operation === 'aggregate') {
-      axios.get(`http://localhost:8000/aggregate/?group_by_column=${selectedColumn}&agg_column=${aggColumn}&agg_func=${aggFunc}&dataset=${dataset}`)
-        .then(res => setResult(res.data))
-        .catch(err => console.error(err));
+      apiUrl = `http://localhost:8000/aggregate/?group_by_column=${selectedColumn}&agg_column=${aggColumn}&agg_func=${aggFunc}&dataset=${dataset}`;
     }
+
+    axios.get(apiUrl)
+      .then(res => setResult(res.data))
+      .catch(err => console.error(err));
   };
 
   // CSV Export Function
@@ -145,6 +158,19 @@ const DataManipulation: React.FC = () => {
             </tbody>
           </table>
         )}
+
+        {/* Pagination Controls */}
+        <div className="pagination-controls">
+          <button onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} disabled={currentPage === 1}>
+            ◀ {i18n.language === 'ko' ? '이전 페이지' : 'Previous'}
+          </button>
+          <span>{i18n.language === 'ko' ? '  ' : '  '}    </span>
+          <span>{i18n.language === 'ko' ? '페이지' : 'Page'} {currentPage}</span>
+          <span>{i18n.language === 'ko' ? '  ' : '  '}    </span>
+          <button onClick={() => setCurrentPage(prev => prev + 1)} disabled={result.length < rowsPerPage}>
+            {i18n.language === 'ko' ? '다음 페이지' : 'Next'} ▶
+          </button>
+        </div>
 
         {/* Export CSV Button */}
         {result.length > 0 && (

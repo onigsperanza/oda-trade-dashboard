@@ -105,7 +105,8 @@ You can just load them from my dockerhub and execute container using docker-comp
 This project includes **Google OAuth authentication**, requiring users to sign in before accessing the homepage.
 
 ### ❗ **Facing Issues with Google OAuth?**
-If you encounter issues with **Google OAuth login**, you can use the **alternative version without authentication** in the **`nogoogleoauth`** branch:
+If you encounter issues with **Google OAuth login**, you can use the **alternative version without authentication** in the **`nogoogleoauth`** branch: (And Please note that once you login with your Google account, it doesn't require you to login again. 
+if you see login page again, you have to access it in chrome incognito mode.)
 
 ```sh
 git checkout nogoogleoauth
@@ -290,6 +291,11 @@ Asked AI to ensure the functions and screen scale responsively.
 2️⃣ Create a new branch (`feature-new`)  
 3️⃣ Make changes & commit  
 4️⃣ Push your branch & create a **Pull Request**  
+
+---
+## 💻 **Disclaimer**
+
+Sometimes depending on memory status in your PC, importing entire oda data in data mainpulation tab can fail with Error code: Out of Memory
 
 ---
 
