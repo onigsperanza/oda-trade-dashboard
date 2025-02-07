@@ -1,116 +1,132 @@
-.data-manipulation-container {
-  padding: 20px;
-  font-family: Arial, sans-serif;
+/* Default Light Mode */
+body, .data-manipulation-container {
+  background-color: white;
+  color: black;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-  /* For light mode: make h1 black */
-  .data-manipulation-container.light h1 {
-    color: black;
-  }
-
-  /* For dark mode: make h1 white */
-  .data-manipulation-container.dark h1 {
-    color: white;
-  }
-
-.controls {
-  margin-bottom: 20px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-  align-items: center;
-}
-
-.controls label {
-  font-weight: bold;
-}
-
-.controls select, .controls input {
-  padding: 8px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-}
-
-button {
-  padding: 10px 20px;
-  background-color: #007bff;
+/* Dark Mode */
+.dark-mode {
+  background-color: #121212;
   color: white;
+}
+
+/* Ensure text inside inputs and selects is visible */
+.dark-mode input, 
+.dark-mode select,
+.dark-mode textarea {
+  background-color: #222;
+  color: white;
+  border: 1px solid #666;
+}
+
+.dark-mode input::placeholder,
+.dark-mode textarea::placeholder {
+  color: #bbb;
+}
+
+/* Buttons */
+button {
+  padding: 10px 15px;
   border: none;
-  border-radius: 4px;
   cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 button:hover {
-  background-color: #0056b3;
+  opacity: 0.8;
 }
 
+.dark-mode button {
+  background-color: #444;
+  color: white;
+}
+
+/* Dropdowns */
+select {
+  padding: 8px;
+  border-radius: 5px;
+}
+
+.dark-mode select {
+  background-color: #222;
+  color: white;
+  border: 1px solid #666;
+}
+
+/* Top Controls (Language & Theme Toggle) */
+.top-controls {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+/* Table Styling */
 .results {
-  background-color: #f8f8f8;
-  padding: 20px;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-  max-height: 400px;
-  overflow-y: auto;
+  max-width: 100%;
+  max-height: 70vh; /* Limits to 70% of viewport height */
+  overflow: auto; /* Adds scrollbars when content exceeds size */
+  margin: 0 auto; /* Centers the result box */
 }
 
-pre {
-  white-space: pre-wrap;
-  word-wrap: break-word;
+table {
+  width: 100%;
+  border-collapse: collapse;
 }
 
-.home-button {
+th, td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #f5f5f5;
+}
+
+.dark-mode th {
+  background-color: #333;
+  color: white;
+}
+
+.dark-mode td {
+  background-color: #222;
+  color: white;
+}
+
+/* Pagination */
+.pagination-controls {
   margin-top: 20px;
   text-align: center;
 }
 
-.home-button button {
-  padding: 10px 25px;
-  background-color: #28a745;
+.dark-mode .pagination-controls {
   color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 16px;
-  cursor: pointer;
 }
 
-.home-button button:hover {
-  background-color: #218838;
-}
-
-.results button {
-  margin-top: 10px;
-  padding: 10px 20px;
-  background-color: #ffc107;
-  color: black;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.results button:hover {
-  background-color: #e0a800;
-}
-.results table {
-  width: 100%;
-  border-collapse: collapse;
+/* Home Button */
+.home-button {
+  text-align: center;
   margin-top: 20px;
 }
 
-.results th, .results td {
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: left;
+.home-button button {
+  background-color: #ff5722;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
 }
 
-.results th {
-  background-color: #f2f2f2;
-  font-weight: bold;
+.dark-mode .home-button button {
+  background-color: #ff784e;
 }
 
-.results tr:nth-child(even) {
-  background-color: #f9f9f9;
+/* Header Styling */
+h1, h2 {
+  text-align: center;
 }
 
-.results tr:hover {
-  background-color: #f1f1f1;
+.dark-mode h1, .dark-mode h2 {
+  color: white;
 }

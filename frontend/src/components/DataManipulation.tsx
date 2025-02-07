@@ -14,6 +14,16 @@ const DataManipulation: React.FC = () => {
   const [aggColumn, setAggColumn] = useState('');
   const [aggFunc, setAggFunc] = useState('sum');
   const [result, setResult] = useState<any[]>([]);
+  // Language Toggle
+  const handleLanguageToggle = () => {
+    i18n.changeLanguage(i18n.language === 'ko' ? 'en' : 'ko');
+  };
+
+  // Dark Mode Toggle
+  const [darkMode, setDarkMode] = useState(false);
+  const handleThemeToggle = () => {
+    setDarkMode(prev => !prev);
+  };
 
   // Pagination states
   const [currentPage, setCurrentPage] = useState(1);
@@ -74,10 +84,15 @@ const DataManipulation: React.FC = () => {
   };
 
   return (
-    <div className="data-manipulation-container">
+    <div className={`data-manipulation-container ${darkMode ? 'dark-mode' : 'light-mode'}`}>
       <h1>{i18n.language === 'ko' ? '데이터 보기 및 조작 인터페이스' : 'Data View and Manipulation Interface'}</h1>
-
       <div className="controls">
+        <button onClick={handleLanguageToggle}>
+          {i18n.language === 'ko' ? 'English' : '한국어'}
+        </button>
+        <button onClick={handleThemeToggle}>
+          {darkMode ? '🌙 Dark Mode' : '☀ Light Mode'}
+        </button>
         {/* Select Dataset */}
         <label>{i18n.language === 'ko' ? '데이터셋 선택' : 'Select Dataset'}: </label>
         <select value={dataset} onChange={e => setDataset(e.target.value)}>

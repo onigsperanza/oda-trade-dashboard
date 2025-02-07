@@ -271,6 +271,8 @@ Asked AI to ensure the functions and screen scale responsively.
 ✔ **Dark/Light Mode UI Toggle**
 ✔ **Multi-Language Support (English/Korean)**
 ✔ **Typescript implementation**
+✔ **Pagination implementation**
+
 
 
 ---
