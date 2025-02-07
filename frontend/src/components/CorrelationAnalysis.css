@@ -18,6 +18,15 @@
     --text: #f1f1f1;
   }
   
+  /* For light mode: make h1 black */
+.prediction-container.light h1 {
+  color: black;
+}
+
+/* For dark mode: make h1 white */
+.prediction-container.dark h1 {
+  color: white;
+}
   .header {
     display: flex;
     justify-content: space-between;

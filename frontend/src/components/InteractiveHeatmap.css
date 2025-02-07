@@ -7,6 +7,24 @@
     overflow: hidden;
   }
   
+  /* Base styling for the title */
+.heatmap-page h1 {
+  text-align: left;       /* Centers the title */
+  font-size: 3rem;        /* Sets a smaller font size */
+  margin: 20px 0 10px;      /* Adjusts vertical spacing */
+  padding-top: 10px;        /* Adds some padding at the top */
+}
+
+/* Light mode: Title should be black */
+.heatmap-page.light h1 {
+  color: black;
+}
+
+/* Dark mode: Title should be white */
+.heatmap-page.dark h1 {
+  color: white;
+}
+
   .header {
     display: flex;
     justify-content: space-between;

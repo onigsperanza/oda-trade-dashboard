@@ -3,6 +3,16 @@
   font-family: Arial, sans-serif;
 }
 
+  /* For light mode: make h1 black */
+  .data-manipulation-container.light h1 {
+    color: black;
+  }
+
+  /* For dark mode: make h1 white */
+  .data-manipulation-container.dark h1 {
+    color: white;
+  }
+
 .controls {
   margin-bottom: 20px;
   display: flex;
