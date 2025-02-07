@@ -48,7 +48,11 @@ This project includes:
 
 ### 📌. Prerequisites**
 
-- Install **Docker** and **Docker Compose** on your system.
+🔹 Install **Docker** and **Docker Compose** on your system.
+🔹 Install Node.js (Includes npm) & Python
+ -- Go to Node.js official website
+ -- Download the LTS (Long-Term Support) version
+ -- Run the installer and check the option to add Node.js to **PATH**!
 
 ### **1️⃣ Clone the Repository**
 ```sh
