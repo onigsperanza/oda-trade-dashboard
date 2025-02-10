@@ -50,6 +50,7 @@ const DataManipulation: React.FC = () => {
 
   // Handle Operation Submission
   const handleSubmit = () => {
+    setCurrentPage(1); // Reset to first page when a new query is executed
     let apiUrl = '';
     if (operation === 'view') {
       apiUrl = `http://localhost:8000/${dataset}_data?page=${currentPage}&limit=${rowsPerPage}`;
@@ -95,7 +96,7 @@ const DataManipulation: React.FC = () => {
         </button>
         {/* Select Dataset */}
         <label>{i18n.language === 'ko' ? '데이터셋 선택' : 'Select Dataset'}: </label>
-        <select value={dataset} onChange={e => setDataset(e.target.value)}>
+        <select value={dataset} onChange={e => {setDataset(e.target.value); setCurrentPage(1);}}>
           <option value="oda">ODA</option>
           <option value="trade">Trade</option>
           <option value="aggregated">Aggregated</option>

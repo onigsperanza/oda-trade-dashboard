@@ -109,12 +109,9 @@ You can just load them from my dockerhub and execute container using docker-comp
 This project includes **Google OAuth authentication**, requiring users to sign in before accessing the homepage.
 
 ### ❗ **Facing Issues with Google OAuth?**
-If you encounter issues with **Google OAuth login**, you can use the **alternative version without authentication** in the **`nogoogleoauth`** branch: (And Please note that once you login with your Google account, it doesn't require you to login again. 
+If you encounter issues with **Google OAuth login**, Please contact me with your google address.  (And Please note that once you login with your Google account, it doesn't require you to login again. 
 if you see login page again, you have to access it in chrome incognito mode.)
 
-```sh
-git checkout nogoogleoauth
-```
 
 This branch removes the Google login requirement so you can access the dashboard without signing in.
 
